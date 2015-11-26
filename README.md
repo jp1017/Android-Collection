@@ -21,10 +21,10 @@ It’s best practice to place your app icons in mipmap- folders (not the drawabl
 1.1 手机常见分辨率:
 4:3
 
-|1|	2|
-|-| -|
-|VGA： 640×480 (Video Graphics Array)|	QVGA： 320×240 (Quarter VGA)
-|HVGA： 480×320 (Half-size VGA)	|SVGA： 800×600 (Super VGA)
+| 1   |	 2 |
+| ---- | ----：|
+| VGA： 640×480 (Video Graphics Array)  |	QVGA： 320×240 (Quarter VGA) |
+| HVGA： 480×320 (Half-size VGA)	|  SVGA： 800×600 (Super VGA) |
 
 5:3
 
