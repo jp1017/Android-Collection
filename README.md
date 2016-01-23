@@ -83,7 +83,7 @@ setEnabled就相当于一个总开关，只有总开关打开了，才能使用�
 
  
 |activity	|fragment |
-|- |- |
+| ---- | ----:|
 |![activity](http://7xlah4.com1.z0.glb.clouddn.com/20151016activity%E5%AE%8C%E6%95%B4%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%96%B9%E6%B3%95.jpg)	|![fragment](http://7xlah4.com1.z0.glb.clouddn.com/20151016activity%E5%92%8Cfragment%E5%AE%8C%E6%95%B4%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E6%96%B9%E6%B3%95.jpg)
 
 # padding
