@@ -22,7 +22,7 @@ It’s best practice to place your app icons in mipmap- folders (not the drawabl
 4:3
 
 | 1   |	 2 |
-| ---- | ----：|
+| ---- | ----:|
 | VGA： 640×480 (Video Graphics Array)  |	QVGA： 320×240 (Quarter VGA) |
 | HVGA： 480×320 (Half-size VGA)	|  SVGA： 800×600 (Super VGA) |
 
@@ -33,7 +33,7 @@ WVGA 800×480 (Wide VGA)
 16:9
 
 |1|	2|
-|-| |
+| ---- | ----:|
 |FWVGA： 854×480 (Full Wide VGA)	|HD： 1920×1080 High Definition
 |QHD： 960×540 |720p： 1280×720 标清|
 |1080p 1920×1080 高清||
@@ -41,7 +41,7 @@ WVGA 800×480 (Wide VGA)
 1.2 分辨率对应DPI
 
 |1|	2|
-|-| |
+| ---- | ----:|
 |“HVGA： mdpi”	|“WVGA： hdpi “
 |“FWVGA： hdpi “	|“QHD： hdpi “
 |“720P： xhdpi”|	“1080P： xxhdpi “
@@ -362,6 +362,83 @@ Character.forDigit(15,16): f
 
 # service使用注意点
 ---
+
+# java定时器举例
+---
+
+```java
+//倒计时30s操作
+new CountDownTimer(30000, 100) {
+    @Override
+    public void onTick(long millisUntilFinished) {
+        btnTraceDate.setText("seconds remaining: "
+                + millisUntilFinished / 1000 + " S " + millisUntilFinished % 1000 / 100);
+    }
+
+    @Override
+    public void onFinish() {
+        btnTraceDate.setText("Done");
+    }
+}.start();
+```
+
+# 内存优化
+---
+
+通常情况下我们所说的内存是指手机的RAM，它包括以下几部分：
+1 寄存器：寄存器处于CPU内部，在程序中无法控制；
+
+2 栈：存放基本数据类型和对象的引用；
+
+3 堆：存放对象和数组，由虚拟机GC来管理；
+
+4 静态存储区域(static field)：在固定的位置存放应用程序运行时一直存在的数据，Java在内存中专门划分了一个静态存储区域来管理一些特殊的数据变量，如静态的数据变量；View一般不要设置为static
+
+5 常量池(constant pool)：虚拟机必须为每个被装在的类维护一个常量池，常量池就是这个类所用的常量的一个有序集合，包括直接常量（基本类型、string）和对其他类型、字段和方法的符号引用。
+
+# getResources().getColor() is deprecated
+---
+
+用23的api，会有此警告，处女座的朋友看着不爽，那么找一个替换下咯，推荐用这个：
+
+```java
+ContextCompat.getColor(context, R.color.color_name)
+```
+
+ContextCompat是v4包里的，请放心使用，另外还有`getDrawable()等方法`。
+
+# SharedPreference.Editor的apply和commit方法异同
+
+1. apply没有返回值，而commit返回boolean，true表明修改提交成功。
+
+2. apply是将修改数据原子提交到内存, 后面再调用apply函数，数据将会直接覆盖前面的内存数据，然后异步提交到硬件磁盘,这样从一定程度上提高了很多效率；而commit是同步的提交到硬件磁盘，因此，在多个并发的提交commit的时候，他们会等待正在处理的commit保存到磁盘后再操作下一个数据，从而降低了效率。
+
+3. apply方法不会提示任何失败的提示。 
+由于在一个进程中，sharedPreference是单实例，一般不会出现并发冲突，如果对提交的结果不关心的话，建议使用apply，当然需要确保提交成功且有后续操作的话，还是需要用commit的。
+
+# Snackbar
+---
+
+```java
+    Snackbar.make(getWindow().getDecorView(), "Hi, Snack!", Snackbar.LENGTH_SHORT).show();
+```
+
+# 安卓事件
+---
+
+先来个文章：
+[Android触摸事件分发机制](http://hunankeda110.iteye.com/blog/1944311)
+
+分为`事件传递`和`事件处理`
+
++ 事件传递：MotionEvent事件的传递是采用隧道方式传递。隧道方式，即从根元素依次往下传递直到最内层子元素或在中间某一元素中由于某一条件停止传递。
+
++ 事件处理：MotionEvent事件的处理采用冒泡方式。冒泡方式，从最内层子元素依次往外传递直到根元素或在中间某一元素中由于某一条件停止传递。
+
+Android中onclick，onLongClick是都是由ACTION_DOWN，ACTION_UP组成。如果在同一个View中onTouchEvent、onclick、onLongClick都进行了重写。onTouchEvent最先捕获ACTION_DOWN、ACTION_UP等单元事件。接下来才可能发生onClick、onLongClick事件。一个onclick事件是由ACTION_DOWN和ACTION_UP组成的。一个onLongClick事件至少有一个ACTION_DOWN。
+
+onLongClick是在单独的线程执行，发生在ACTION_UP之前。Onclick发生在ACTION_UP之后，也就是说，如果在onLongClick返回false，onclick就会发生，而onlongClick返回true，则代表此事件已经被消费。Onclick不再发生。
+
 
 
 
